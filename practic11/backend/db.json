@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "id": "admin123",
+      "email": "admin@example.com",
+      "first_name": "Admin",
+      "last_name": "User",
+      "role": "admin",
+      "isBlocked": false,
+      "hashedPassword": "$2b$10$JimyATOMbdi7iTUqBdvPiuyWDIV1UnMz..u6JvG5sRhDaha85lc72"
+    },
+    {
+      "id": "lm0OYu",
+      "email": "test@example.com",
+      "first_name": "Name_test",
+      "last_name": "LastName_test",
+      "role": "seller",
+      "isBlocked": false,
+      "hashedPassword": "$2b$10$bBhgZfhKNcO4WDdkG/ct4.HoV67nTNy2ftFFHpIG8eKHuv9TljQdG"
+    }
+  ],
+  "products": [
+    {
+      "id": "Lb9MeM",
+      "title": "test_name",
+      "category": "test_category",
+      "description": "test_opisanie",
+      "price": 1999.99
+    }
+  ],
+  "refreshTokens": [
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsbTBPWXUiLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1MTMwNjY3LCJleHAiOjE3NzU3MzU0Njd9.0Bing2LcpMwEQDOA8WHhqv_uPfmhq5_ypwrx4Mle5eE",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsbTBPWXUiLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1MTMwNzA0LCJleHAiOjE3NzU3MzU1MDR9.IVV1tLGvzeSEEXuX38aagugiZuSnEzPCsRkeE6I6pCk",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTEzMTUzNCwiZXhwIjoxNzc1NzM2MzM0fQ.8DE6WTxQXg9eBIX_WMdcxzwmgX15F0AXPu-gV3gIPKY",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTEzMTU0NywiZXhwIjoxNzc1NzM2MzQ3fQ.NysKdktn8VdtfPT6k_Mu1MAL4sw7fpwyzp5ZBsEcc9w"
+  ]
+}
