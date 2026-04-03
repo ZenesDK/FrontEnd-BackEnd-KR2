@@ -1,0 +1,508 @@
+// ==================== ПЕРЕМЕННЫЕ ====================
+
+// Цветовая схема
+$primary-color: #007bff;
+$primary-hover: #0056b3;
+$danger-color: #dc3545;
+$danger-hover: #b02a37;
+$warning-color: #ffc107;
+$warning-hover: #e0a800;
+$success-color: #28a745;
+$success-hover: #1e7e34;
+$secondary-color: #6c757d;
+$secondary-hover: #5a6268;
+$dark-color: #333;
+$light-color: #f5f5f5;
+$white: #ffffff;
+$gray: #666;
+$light-gray: #f0f0f0;
+$border-color: #e0e0e0;
+
+// Тени
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+$box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+// Отступы
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 0.75rem;
+$spacing-lg: 1rem;
+$spacing-xl: 1.5rem;
+$spacing-xxl: 2rem;
+
+// Брейкпоинты
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+
+// Радиусы
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 20px;
+
+// Шрифты
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.1rem;
+$font-size-xl: 1.25rem;
+$font-size-xxl: 1.5rem;
+$font-size-xxxl: 1.75rem;
+
+// ==================== МИКСИНЫ ====================
+
+// Миксин для флекс-контейнера
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+}
+
+// Миксин для карточки
+@mixin card($padding: $spacing-lg, $radius: $border-radius-md) {
+  background: $white;
+  border: 1px solid $border-color;
+  border-radius: $radius;
+  padding: $padding;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $box-shadow-hover;
+  }
+}
+
+// Миксин для кнопки
+@mixin button($bg: $primary-color, $hover-bg: $primary-hover, $color: $white) {
+  background: $bg;
+  color: $color;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: auto;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $border-radius-sm;
+  
+  &:hover {
+    background: $hover-bg;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Миксин для контейнера
+@mixin container($max-width: 1200px) {
+  max-width: $max-width;
+  margin: $spacing-xxl auto;
+  padding: $spacing-xl;
+  background: $white;
+  border-radius: $border-radius-md;
+  box-shadow: $box-shadow;
+}
+
+// Миксин для медиа-запросов
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+// Миксин для обрезки текста
+@mixin text-ellipsis($lines: 2) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ==================== ГЛОБАЛЬНЫЕ СТИЛИ ====================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-base;
+  background-color: $light-color;
+}
+
+// ==================== КОНТЕЙНЕРЫ ====================
+
+.container {
+  @include container();
+  
+  @include mobile {
+    margin: $spacing-lg;
+    padding: $spacing-lg;
+  }
+}
+
+// ==================== ФОРМЫ ====================
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+input, textarea, button {
+  display: block;
+  width: 100%;
+  margin: $spacing-md 0;
+  padding: $spacing-md;
+  font-size: $font-size-base;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// ==================== ХЕДЕР ====================
+
+.header-with-logout {
+  @include flex(row, space-between, center, $spacing-lg);
+  margin-bottom: $spacing-xl;
+  
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  h2 {
+    margin: 0;
+    font-size: $font-size-xxxl;
+  }
+  
+  > div {
+    @include flex(row, center, center, $spacing-md);
+    
+    @include mobile {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+}
+
+.user-role-badge {
+  background: $secondary-color;
+  color: $white;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $border-radius-xl;
+  font-size: $font-size-sm;
+}
+
+.btn-logout {
+  @include button($danger-color, $danger-hover);
+}
+
+.btn-refresh {
+  @include button(#17a2b8, #138496);
+}
+
+// ==================== ТУЛБАР ====================
+
+.toolbar {
+  @include flex(row, flex-start, center, $spacing-lg);
+  margin-bottom: $spacing-xl;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  @include button($primary-color, $primary-hover);
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-admin {
+  @include button($secondary-color, $secondary-hover);
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-back {
+  @include button($secondary-color, $secondary-hover);
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+// ==================== СЕТКА ТОВАРОВ ====================
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: $spacing-xl;
+  margin-top: $spacing-lg;
+  
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+.product-card {
+  @include card($spacing-lg, $border-radius-lg);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $box-shadow-hover;
+  }
+}
+
+.product-card-header {
+  @include flex(row, space-between, center, $spacing-sm);
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.product-title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $dark-color;
+}
+
+.product-category {
+  background: $light-gray;
+  color: $gray;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-xl;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.product-price {
+  font-size: $font-size-xxl;
+  font-weight: 700;
+  color: $primary-color;
+  margin: $spacing-sm 0;
+}
+
+// ==================== ОПИСАНИЕ ТОВАРА ====================
+
+.product-description {
+  margin: $spacing-md 0;
+  line-height: 1.5;
+  color: $gray;
+  
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+  }
+  
+  .collapsed {
+    @include text-ellipsis(2);
+  }
+  
+  .expanded {
+    display: block;
+  }
+}
+
+.toggle-description {
+  background: none;
+  border: none;
+  color: $primary-color;
+  cursor: pointer;
+  font-size: $font-size-xs;
+  padding: $spacing-xs 0;
+  margin-top: $spacing-xs;
+  width: auto;
+  text-decoration: underline;
+  
+  &:hover {
+    color: $primary-hover;
+    background: none;
+  }
+}
+
+// ==================== КНОПКИ ДЕЙСТВИЙ НА КАРТОЧКЕ ====================
+
+.product-card-actions {
+  @include flex(row, stretch, center, $spacing-md);
+  margin-top: $spacing-lg;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-color;
+  
+  .btn-edit, .btn-delete {
+    flex: 1;
+    text-align: center;
+    padding: $spacing-sm;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  
+  .btn-edit {
+    background: $warning-color;
+    color: $dark-color;
+    border: none;
+    
+    &:hover {
+      background: $warning-hover;
+    }
+  }
+  
+  .btn-delete {
+    background: $danger-color;
+    color: $white;
+    border: none;
+    
+    &:hover {
+      background: $danger-hover;
+    }
+  }
+}
+
+// ==================== ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ ====================
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: $spacing-lg;
+  overflow-x: auto;
+  display: block;
+  
+  thead, tbody, tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  th, td {
+    border: 1px solid $border-color;
+    padding: $spacing-md;
+    text-align: left;
+    word-break: break-word;
+  }
+  
+  th {
+    background: $light-gray;
+    font-weight: 600;
+  }
+  
+  select {
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    width: auto;
+    margin: 0;
+  }
+  
+  button {
+    width: auto;
+    margin: 0;
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-sm;
+  }
+}
+
+.current-user {
+  background-color: rgba($primary-color, 0.1);
+}
+
+.self-badge {
+  font-size: $font-size-xs;
+  color: $primary-color;
+  margin-left: $spacing-sm;
+}
+
+.btn-block {
+  @include button($danger-color, $danger-hover);
+}
+
+.btn-unblock {
+  @include button($success-color, $success-hover);
+}
+
+// Статусы
+.blocked {
+  color: $danger-color;
+  font-weight: 500;
+}
+
+.active {
+  color: $success-color;
+  font-weight: 500;
+}
+
+// ==================== ПРЕДУПРЕЖДЕНИЯ ====================
+
+.warning-note {
+  margin-top: $spacing-xl;
+  padding: $spacing-lg;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  color: #856404;
+  
+  ul {
+    margin: $spacing-sm 0 0 $spacing-xl;
+    padding: 0;
+  }
+  
+  li {
+    padding: $spacing-xs 0;
+    border: none;
+    display: list-item;
+  }
+}
+
+// ==================== ОШИБКИ ====================
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: $spacing-md;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-lg;
+  border: 1px solid #f5c6cb;
+}
+
+// ==================== ЗАГРУЗКА ====================
+
+.loading {
+  text-align: center;
+  padding: $spacing-xxl;
+  color: $gray;
+}
+
+// ==================== ССЫЛКИ ====================
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}

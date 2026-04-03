@@ -8,7 +8,7 @@ import ProductForm from './pages/ProductForm';
 import UsersList from './pages/UsersList';
 import PrivateRoute from './components/PrivateRoute';
 import RoleBasedRoute from './components/RoleBasedRoute';
-import './App.css';
+import './App.scss';
 
 function App() {
   // Функция обновления роли из токена
