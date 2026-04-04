@@ -21,20 +21,12 @@
   ],
   "products": [
     {
-      "id": "Lb9MeM",
-      "title": "test_name",
-      "category": "test_category",
-      "description": "test_opisanie",
-      "price": 1999.99,
-      "imageUrl": "/uploads/1775330341444-528707581.webp"
-    },
-    {
-      "id": "XtZDki",
-      "title": "sdkansd",
-      "category": "sdanslda",
-      "description": "dsadad",
-      "price": 1212,
-      "imageUrl": "/uploads/1775330565571-637335056.jpg"
+      "id": "A7iVTI",
+      "title": "Черный байховый",
+      "category": "Черный",
+      "description": "Вкуснейший чай для вас",
+      "price": 599.9,
+      "imageUrl": "/uploads/1775331853041-935866736.webp"
     }
   ],
   "refreshTokens": [
@@ -46,6 +38,7 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyODM0OCwiZXhwIjoxNzc1OTMzMTQ4fQ.o-x4a5YKvibJ2By38QrBpqFac864sr0FQTT2xlw6Qvc",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ4MiwiZXhwIjoxNzc1OTM0MjgyfQ.x7rcvwAgylgmz9HJXCgaGFeGC5icmfvZyE5QLFySE4Y",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ5MiwiZXhwIjoxNzc1OTM0MjkyfQ.Zne0NjqeFOF6bNDPjAL1UNBNzOsk0DTads1BBFDKr_M",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTg4OCwiZXhwIjoxNzc1OTM0Njg4fQ.pQ-VYp9mnf1fkqHLpWe36aI_F_zNBTnBXEaH2bcXui8"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMzMTczMiwiZXhwIjoxNzc1OTM2NTMyfQ.vSEKmzAeZJzu4-UZVdqlJuH7ii4qVD8iaoE_ThCRthM",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMzMTc0MiwiZXhwIjoxNzc1OTM2NTQyfQ.5cnVQcde4UnCZNVuge6tQfPIXlehlhRPTJmxPKR6G8Q"
   ]
 }
