@@ -6,7 +6,7 @@ import { getProducts, deleteProduct } from '../api/products';
 export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [userRole, setUserRole] = useState(null);
-  const [expandedId, setExpandedId] = useState(null); // для раскрытия описания
+  const [expandedId, setExpandedId] = useState(null);
   const navigate = useNavigate();
 
   const updateRole = () => {
@@ -52,11 +52,7 @@ export default function ProductsList() {
   };
 
   const toggleDescription = (id) => {
-    if (expandedId === id) {
-      setExpandedId(null);
-    } else {
-      setExpandedId(id);
-    }
+    setExpandedId(expandedId === id ? null : id);
   };
 
   const isAdmin = userRole === 'admin';
@@ -93,6 +89,19 @@ export default function ProductsList() {
         <div className="products-grid">
           {products.map((p) => (
             <div key={p.id} className="product-card">
+              {p.imageUrl && (
+                <div className="product-image">
+                  <img 
+                    src={`http://localhost:3000${p.imageUrl}`} 
+                    alt={p.title}
+                    onError={(e) => {
+                      console.error('Image failed to load:', p.imageUrl);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              
               <div className="product-card-header">
                 <h3 className="product-title">{p.title}</h3>
                 <span className="product-category">{p.category}</span>

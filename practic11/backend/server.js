@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 
 // Swagger
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -22,6 +23,73 @@ const REFRESH_EXPIRES_IN = '7d';
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
+
+// ==================== НАСТРОЙКА ЗАГРУЗКИ ИЗОБРАЖЕНИЙ ====================
+
+// Создаем папку для загрузок, если её нет
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  console.log('📁 Uploads directory created:', UPLOAD_DIR);
+} else {
+  console.log('📁 Uploads directory exists:', UPLOAD_DIR);
+}
+
+// Настройка multer для сохранения файлов
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOAD_DIR);
+  },
+  filename: (req, file, cb) => {
+    // Сохраняем оригинальное расширение
+    const ext = path.extname(file.originalname).toLowerCase();
+    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + ext;
+    console.log(`💾 Saving file: ${uniqueName}`);
+    console.log(`   Original: ${file.originalname}`);
+    console.log(`   MIME type: ${file.mimetype}`);
+    cb(null, uniqueName);
+  }
+});
+
+// Фильтр файлов (только изображения)
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif|webp/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+  
+  console.log(`🔍 File check: ${file.originalname}`);
+  console.log(`   Extension: ${path.extname(file.originalname)} (valid: ${extname})`);
+  console.log(`   MIME type: ${file.mimetype} (valid: ${mimetype})`);
+  
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error(`Только изображения! Разрешены: jpeg, jpg, png, gif, webp. Получено: ${file.mimetype}`));
+  }
+};
+
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB лимит
+  fileFilter
+});
+
+// Раздача статических файлов из папки uploads (ДО объявления маршрутов!)
+app.use('/uploads', express.static(UPLOAD_DIR));
+
+// Добавляем тестовый маршрут для проверки статических файлов
+app.get('/api/check-uploads', (req, res) => {
+  fs.readdir(UPLOAD_DIR, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ 
+      uploadDir: UPLOAD_DIR,
+      files: files,
+      filesWithUrls: files.map(f => `/uploads/${f}`)
+    });
+  });
+});
 
 // ==================== РАБОТА С JSON ФАЙЛОМ ====================
 
@@ -114,6 +182,17 @@ function hasRefreshToken(token) {
   return getRefreshTokens().includes(token);
 }
 
+// Удаление изображения товара
+function deleteProductImage(imageUrl) {
+  if (imageUrl) {
+    const imagePath = path.join(__dirname, imageUrl);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+      console.log(`🗑️ Deleted image: ${imagePath}`);
+    }
+  }
+}
+
 // ==================== ХЕШИРОВАНИЕ ПАРОЛЕЙ ====================
 
 const saltRounds = 10;
@@ -192,26 +271,20 @@ async function authMiddleware(req, res, next) {
   }
   
   try {
-    // Верифицируем токен
     const payload = jwt.verify(token, ACCESS_SECRET);
-    
-    // Получаем пользователя из БД по id из токена
     const users = getUsers();
     const userFromDB = users.find(u => u.id === payload.sub);
     
-    // Если пользователь не найден в БД
     if (!userFromDB) {
       console.log(`❌ User not found in DB: ${payload.sub}`);
       return res.status(401).json({ error: "User not found. Please login again." });
     }
     
-    // Если пользователь заблокирован
     if (userFromDB.isBlocked) {
       console.log(`❌ User is blocked: ${userFromDB.email}`);
       return res.status(401).json({ error: "User is blocked. Please login again." });
     }
     
-    // Если роль в токене отличается от роли в БД
     if (userFromDB.role !== payload.role) {
       console.log(`⚠️ Role changed: token(${payload.role}) → DB(${userFromDB.role}) for user ${userFromDB.email}`);
       return res.status(401).json({ 
@@ -220,7 +293,6 @@ async function authMiddleware(req, res, next) {
       });
     }
     
-    // Всё хорошо — сохраняем данные пользователя в req
     req.user = { 
       sub: userFromDB.id,
       email: userFromDB.email,
@@ -313,10 +385,11 @@ const swaggerOptions = {
           type: 'object',
           properties: {
             id: { type: 'string', example: 'prod123' },
-            title: { type: 'string', example: 'Смартфон' },
-            category: { type: 'string', example: 'Электроника' },
-            description: { type: 'string', example: 'Отличный смартфон' },
-            price: { type: 'number', example: 29990 },
+            title: { type: 'string', example: 'Чай Пуэр' },
+            category: { type: 'string', example: 'Черный чай' },
+            description: { type: 'string', example: 'Отличный китайский чай' },
+            price: { type: 'number', example: 2990 },
+            imageUrl: { type: 'string', example: '/uploads/1234567890-image.jpg' },
           },
         },
         LoginRequest: {
@@ -400,10 +473,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *               $ref: '#/components/schemas/User'
  *       400:
  *         description: Ошибка валидации или email уже существует
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  */
 app.post("/api/auth/register", async (req, res) => {
   const { email, first_name, last_name, password } = req.body;
@@ -628,7 +697,6 @@ app.put("/api/users/:id", authMiddleware, roleMiddleware(['admin']), async (req,
   
   const { first_name, last_name, role, isBlocked } = req.body;
   
-  // Сохраняем старую роль и статус блокировки
   const oldRole = users[userIndex].role;
   const oldBlockedStatus = users[userIndex].isBlocked;
   
@@ -641,15 +709,11 @@ app.put("/api/users/:id", authMiddleware, roleMiddleware(['admin']), async (req,
   
   saveUsers(users);
   
-  // Если разблокировали пользователя (isBlocked: false)
   const wasUnblocked = oldBlockedStatus === true && isBlocked === false;
-  
-  // Если роль изменилась ИЛИ пользователь был заблокирован/разблокирован
   const roleChanged = oldRole !== users[userIndex].role;
   const wasBlocked = isBlocked === true;
   
   if (roleChanged || wasBlocked || wasUnblocked) {
-    // Удаляем все refresh-токены этого пользователя
     const refreshTokensList = getRefreshTokens();
     const userRefreshTokens = refreshTokensList.filter(token => {
       try {
@@ -673,60 +737,6 @@ app.put("/api/users/:id", authMiddleware, roleMiddleware(['admin']), async (req,
     ...userWithoutPassword,
     forceLogout: roleChanged || wasBlocked || wasUnblocked
   });
-});
-
-/**
- * @swagger
- * /api/users/{id}:
- *   put:
- *     summary: Обновить информацию о пользователе
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/UpdateUserRequest'
- *     responses:
- *       200:
- *         description: Обновленный пользователь
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       403:
- *         description: Доступ запрещен
- *       404:
- *         description: Пользователь не найден
- */
-app.put("/api/users/:id", authMiddleware, roleMiddleware(['admin']), async (req, res) => {
-  const id = req.params.id;
-  const users = getUsers();
-  const userIndex = users.findIndex(u => u.id === id);
-  
-  if (userIndex === -1) {
-    return res.status(404).json({ error: "User not found" });
-  }
-  
-  const { first_name, last_name, role, isBlocked } = req.body;
-  
-  if (first_name !== undefined) users[userIndex].first_name = first_name.trim();
-  if (last_name !== undefined) users[userIndex].last_name = last_name.trim();
-  if (role !== undefined && ['user', 'seller', 'admin'].includes(role)) {
-    users[userIndex].role = role;
-  }
-  if (isBlocked !== undefined) users[userIndex].isBlocked = isBlocked;
-  
-  saveUsers(users);
-  
-  const { hashedPassword, ...userWithoutPassword } = users[userIndex];
-  res.json(userWithoutPassword);
 });
 
 /**
@@ -797,7 +807,6 @@ app.patch("/api/users/:id/unblock", authMiddleware, roleMiddleware(['admin']), (
     return res.status(404).json({ error: "User not found" });
   }
   
-  // Нельзя разблокировать самого себя (администратор не может разблокировать себя через этот метод)
   if (req.user.sub === id) {
     return res.status(400).json({ error: "You cannot unblock yourself through this endpoint" });
   }
@@ -868,14 +877,26 @@ app.get("/api/products/:id", authMiddleware, (req, res) => {
  * @swagger
  * /api/products:
  *   post:
- *     summary: Создать новый товар
+ *     summary: Создать новый товар с изображением
  *     tags: [Products]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Product'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Товар создан
@@ -888,9 +909,14 @@ app.get("/api/products/:id", authMiddleware, (req, res) => {
  *       403:
  *         description: Доступ запрещен (требуется роль seller или admin)
  */
-app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), (req, res) => {
+app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), upload.single('image'), (req, res) => {
   const { title, category, description, price } = req.body;
+  
   if (!title || !category || !description || price === undefined) {
+    // Если пришло изображение, но ошибка валидации - удаляем его
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     return res.status(400).json({ error: "All fields are required" });
   }
   
@@ -900,10 +926,14 @@ app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), (
     title: title.trim(),
     category: category.trim(),
     description: description.trim(),
-    price: Number(price)
+    price: Number(price),
+    imageUrl: req.file ? `/uploads/${req.file.filename}` : null
   };
+  
   products.push(newProduct);
   saveProducts(products);
+  
+  console.log(`✅ Product created: ${newProduct.title} with image: ${newProduct.imageUrl || 'no image'}`);
   res.status(201).json(newProduct);
 });
 
@@ -911,7 +941,7 @@ app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), (
  * @swagger
  * /api/products/{id}:
  *   put:
- *     summary: Полное обновление товара
+ *     summary: Полное обновление товара с изображением
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -922,9 +952,21 @@ app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), (
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Product'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Обновленный товар
@@ -939,18 +981,34 @@ app.post("/api/products", authMiddleware, roleMiddleware(['seller', 'admin']), (
  *       404:
  *         description: Товар не найден
  */
-app.put("/api/products/:id", authMiddleware, roleMiddleware(['seller', 'admin']), (req, res) => {
+app.put("/api/products/:id", authMiddleware, roleMiddleware(['seller', 'admin']), upload.single('image'), (req, res) => {
   const id = req.params.id;
   const products = getProducts();
   const productIndex = products.findIndex(p => p.id === id);
   
   if (productIndex === -1) {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     return res.status(404).json({ error: "Product not found" });
   }
   
   const { title, category, description, price } = req.body;
+  
   if (!title || !category || !description || price === undefined) {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     return res.status(400).json({ error: "All fields are required for update" });
+  }
+  
+  // Если загружено новое изображение - удаляем старое
+  let imageUrl = products[productIndex].imageUrl;
+  if (req.file) {
+    if (imageUrl) {
+      deleteProductImage(imageUrl);
+    }
+    imageUrl = `/uploads/${req.file.filename}`;
   }
   
   products[productIndex] = {
@@ -958,9 +1016,13 @@ app.put("/api/products/:id", authMiddleware, roleMiddleware(['seller', 'admin'])
     title: title.trim(),
     category: category.trim(),
     description: description.trim(),
-    price: Number(price)
+    price: Number(price),
+    imageUrl
   };
+  
   saveProducts(products);
+  
+  console.log(`✏️ Product updated: ${products[productIndex].title}`);
   res.json(products[productIndex]);
 });
 
@@ -993,12 +1055,34 @@ app.delete("/api/products/:id", authMiddleware, roleMiddleware(['admin']), (req,
     return res.status(404).json({ error: "Product not found" });
   }
   
+  // Удаляем изображение товара
+  const product = products[productIndex];
+  if (product.imageUrl) {
+    deleteProductImage(product.imageUrl);
+  }
+  
   products.splice(productIndex, 1);
   saveProducts(products);
+  
+  console.log(`🗑️ Product deleted: ${product.title}`);
   res.status(204).send();
 });
 
 // ==================== ОБРАБОТКА ОШИБОК ====================
+
+// Обработка ошибок multer
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ error: 'Файл слишком большой. Максимальный размер 5MB' });
+    }
+    return res.status(400).json({ error: `Ошибка загрузки файла: ${err.message}` });
+  }
+  if (err.message === 'Только изображения! Разрешены: jpeg, jpg, png, gif, webp') {
+    return res.status(400).json({ error: err.message });
+  }
+  next(err);
+});
 
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });
@@ -1015,9 +1099,10 @@ app.use((err, req, res, next) => {
 initDB();
 
 app.listen(port, () => {
-  console.log(`🚀 Сервер запущен на http://localhost:${port}`);
+  console.log(`\n🚀 Сервер запущен на http://localhost:${port}`);
   console.log(`📚 Swagger UI доступен на http://localhost:${port}/api-docs`);
+  console.log(`📁 Загрузки сохраняются в: ${UPLOAD_DIR}`);
   console.log(`📋 Роли: user, seller, admin`);
   console.log(`💾 Данные сохраняются в файл: ${DB_PATH}`);
-  console.log(`🔐 Тестовый администратор: admin@example.com / admin123`);
+  console.log(`🔐 Тестовый администратор: admin@example.com / admin123\n`);
 });

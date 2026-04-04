@@ -25,7 +25,16 @@
       "title": "test_name",
       "category": "test_category",
       "description": "test_opisanie",
-      "price": 1999.99
+      "price": 1999.99,
+      "imageUrl": "/uploads/1775329908531-261703382.png"
+    },
+    {
+      "id": "XtZDki",
+      "title": "sdkansd",
+      "category": "sdanslda",
+      "description": "dsadad",
+      "price": 1212,
+      "imageUrl": "/uploads/1775329240741-34563964.png"
     }
   ],
   "refreshTokens": [
@@ -35,6 +44,8 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTIwMjUwOCwiZXhwIjoxNzc1ODA3MzA4fQ.pxdXy80E7-4FZNl42NwFGgs4-amDzh823cnKsgjOdiU",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTIwMjUyMCwiZXhwIjoxNzc1ODA3MzIwfQ.xB40OpWQYiLymnStnurKDCVmOqDSrzLWeI9lrTkrJnE",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyODM0OCwiZXhwIjoxNzc1OTMzMTQ4fQ.o-x4a5YKvibJ2By38QrBpqFac864sr0FQTT2xlw6Qvc",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyODUzOCwiZXhwIjoxNzc1OTMzMzM4fQ.59n-fNBisqSY6eSE5FRil0wuxNtS-joAIvSl5MBvBY4"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ4MiwiZXhwIjoxNzc1OTM0MjgyfQ.x7rcvwAgylgmz9HJXCgaGFeGC5icmfvZyE5QLFySE4Y",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ5MiwiZXhwIjoxNzc1OTM0MjkyfQ.Zne0NjqeFOF6bNDPjAL1UNBNzOsk0DTads1BBFDKr_M",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTg4OCwiZXhwIjoxNzc1OTM0Njg4fQ.pQ-VYp9mnf1fkqHLpWe36aI_F_zNBTnBXEaH2bcXui8"
   ]
 }
