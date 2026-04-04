@@ -25,15 +25,24 @@ export default function ProductForm() {
     try {
       setLoading(true);
       const response = await getProduct(id);
+      const product = response.data;
+      
       setForm({
-        title: response.data.title,
-        category: response.data.category,
-        description: response.data.description,
-        price: response.data.price,
+        title: product.title,
+        category: product.category,
+        description: product.description,
+        price: product.price,
         image: null
       });
-      if (response.data.imageUrl) {
-        setImagePreview(response.data.imageUrl);
+      
+      // Если у товара есть изображение, показываем его
+      if (product.imageUrl) {
+        // Используем полный URL к серверу
+        const imageUrl = `http://localhost:3000${product.imageUrl}`;
+        setImagePreview(imageUrl);
+        console.log('Загружено существующее изображение:', imageUrl);
+      } else {
+        setImagePreview(null);
       }
     } catch (err) {
       console.error(err);
@@ -48,6 +57,7 @@ export default function ProductForm() {
     const file = e.target.files[0];
     if (file) {
       setForm({ ...form, image: file });
+      // Для предпросмотра нового файла используем createObjectURL
       setImagePreview(URL.createObjectURL(file));
     }
   };
@@ -62,6 +72,8 @@ export default function ProductForm() {
       formData.append('category', form.category);
       formData.append('description', form.description);
       formData.append('price', form.price);
+      
+      // Отправляем изображение только если выбрано новое
       if (form.image) {
         formData.append('image', form.image);
       }
@@ -81,6 +93,15 @@ export default function ProductForm() {
       setLoading(false);
     }
   };
+
+  // Очищаем URL.createObjectURL при размонтировании компонента
+  useEffect(() => {
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   return (
     <div className="container">
@@ -124,7 +145,7 @@ export default function ProductForm() {
         
         <div className="image-upload">
           <label className="image-upload__label">
-            <span>📷 Выберите изображение</span>
+            <span>📷 {imagePreview ? 'Изменить изображение' : 'Выберите изображение'}</span>
             <input
               type="file"
               accept="image/*"
@@ -136,7 +157,14 @@ export default function ProductForm() {
           
           {imagePreview && (
             <div className="image-preview">
-              <img src={imagePreview} alt="Предпросмотр" />
+              <img 
+                src={imagePreview} 
+                alt="Предпросмотр" 
+                onError={(e) => {
+                  console.error('Ошибка загрузки изображения:', imagePreview);
+                  e.target.src = 'https://via.placeholder.com/400x200?text=Image+not+found';
+                }}
+              />
               <button 
                 type="button"
                 className="image-preview__remove"

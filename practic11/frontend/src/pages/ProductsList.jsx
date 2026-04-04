@@ -7,6 +7,7 @@ export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [userRole, setUserRole] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
+  const [imageErrors, setImageErrors] = useState({});
   const navigate = useNavigate();
 
   const updateRole = () => {
@@ -39,8 +40,13 @@ export default function ProductsList() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Удалить товар?')) {
-      await deleteProduct(id);
-      fetchProducts();
+      try {
+        await deleteProduct(id);
+        fetchProducts();
+      } catch (err) {
+        console.error(err);
+        alert('Ошибка удаления товара');
+      }
     }
   };
 
@@ -55,50 +61,70 @@ export default function ProductsList() {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const handleImageError = (productId) => {
+    setImageErrors(prev => ({ ...prev, [productId]: true }));
+  };
+
   const isAdmin = userRole === 'admin';
   const isSeller = userRole === 'seller' || isAdmin;
 
   if (userRole === null) {
-    return <div className="container">Загрузка...</div>;
+    return (
+      <div className="container">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Загрузка...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container">
       <div className="header-with-logout">
-        <h2>Товары</h2>
+        <h2>Мир чая</h2>
         <div>
           <span className="user-role-badge">
             {userRole === 'admin' ? 'Администратор' : userRole === 'seller' ? 'Продавец' : 'Пользователь'}
           </span>
-          <button onClick={handleLogout} className="btn-logout">🚪 Выйти</button>
+          <button onClick={handleLogout} className="btn-logout">Выйти</button>
         </div>
       </div>
       
       <div className="toolbar">
         {isSeller && (
-          <Link to="/products/new" className="btn-primary">➕ Добавить товар</Link>
+          <Link to="/products/new" className="btn-primary">Добавить товар</Link>
         )}
         {isAdmin && (
-          <Link to="/users" className="btn-admin">👥 Управление пользователями</Link>
+          <Link to="/users" className="btn-admin">Управление пользователями</Link>
         )}
       </div>
       
       {products.length === 0 ? (
-        <p>Нет товаров. {isSeller && 'Нажмите "Добавить товар" чтобы создать первый.'}</p>
+        <div className="empty">
+          <p>Нет товаров. {isSeller && 'Нажмите "Добавить товар" чтобы создать первый.'}</p>
+        </div>
       ) : (
         <div className="products-grid">
           {products.map((p) => (
             <div key={p.id} className="product-card">
-              {p.imageUrl && (
+              {/* Изображение товара */}
+              {p.imageUrl && !imageErrors[p.id] && (
                 <div className="product-image">
                   <img 
                     src={`http://localhost:3000${p.imageUrl}`} 
                     alt={p.title}
-                    onError={(e) => {
-                      console.error('Image failed to load:', p.imageUrl);
-                      e.target.style.display = 'none';
-                    }}
+                    onError={() => handleImageError(p.id)}
+                    loading="lazy"
                   />
+                </div>
+              )}
+              
+              {/* Заглушка если нет изображения или ошибка загрузки */}
+              {(!p.imageUrl || imageErrors[p.id]) && (
+                <div className="product-image product-image--placeholder">
+                  <span></span>
+                  <span>Нет изображения</span>
                 </div>
               )}
               
@@ -115,7 +141,7 @@ export default function ProductsList() {
                 <p className={expandedId === p.id ? 'expanded' : 'collapsed'}>
                   {p.description}
                 </p>
-                {p.description.length > 100 && (
+                {p.description && p.description.length > 100 && (
                   <button 
                     className="toggle-description"
                     onClick={() => toggleDescription(p.id)}
@@ -128,12 +154,12 @@ export default function ProductsList() {
               <div className="product-card-actions">
                 {isSeller && (
                   <Link to={`/products/${p.id}/edit`} className="btn-edit" title="Редактировать">
-                    ✏️ Редактировать
+                    Редактировать
                   </Link>
                 )}
                 {isAdmin && (
                   <button onClick={() => handleDelete(p.id)} className="btn-delete" title="Удалить">
-                    🗑️ Удалить
+                    Удалить
                   </button>
                 )}
               </div>
