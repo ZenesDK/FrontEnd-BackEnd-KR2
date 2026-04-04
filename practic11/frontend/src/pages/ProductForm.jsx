@@ -58,7 +58,7 @@ export default function ProductForm() {
     <div className="container">
       <h2>{id ? 'Редактировать товар' : 'Новый товар'}</h2>
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="product-form">
         <input
           type="text"
           placeholder="Название"
@@ -94,14 +94,14 @@ export default function ProductForm() {
           disabled={loading}
         />
         
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-          <button type="submit" disabled={loading}>
+        <div className="form-buttons">
+          <button type="submit" className="form-btn form-btn--submit" disabled={loading}>
             {loading ? 'Сохранение...' : 'Сохранить'}
           </button>
           <button 
             type="button" 
+            className="form-btn form-btn--cancel"
             onClick={() => navigate('/products')}
-            style={{ background: '#6c757d' }}
             disabled={loading}
           >
             Отмена

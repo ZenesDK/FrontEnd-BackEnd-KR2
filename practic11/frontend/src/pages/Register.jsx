@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/auth';
 
 export default function Register() {
@@ -32,55 +32,58 @@ export default function Register() {
 
   return (
     <div className="container">
-      <h2>Регистрация</h2>
-      
-      {error && <div className="error">{error}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          required
-          disabled={loading}
-        />
+      <div className="auth-card">
+        <h2>Регистрация</h2>
         
-        <input
-          type="text"
-          placeholder="Имя"
-          value={form.first_name}
-          onChange={(e) => setForm({ ...form, first_name: e.target.value })}
-          required
-          disabled={loading}
-        />
+        {error && <div className="error">{error}</div>}
         
-        <input
-          type="text"
-          placeholder="Фамилия"
-          value={form.last_name}
-          onChange={(e) => setForm({ ...form, last_name: e.target.value })}
-          required
-          disabled={loading}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <input
+            type="text"
+            placeholder="Имя"
+            value={form.first_name}
+            onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <input
+            type="text"
+            placeholder="Фамилия"
+            value={form.last_name}
+            onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <input
+            type="password"
+            placeholder="Пароль"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <button type="submit" className="auth-btn" disabled={loading}>
+            {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+          </button>
+        </form>
         
-        <input
-          type="password"
-          placeholder="Пароль"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          required
-          disabled={loading}
-        />
-        
-        <button type="submit" disabled={loading}>
-          {loading ? 'Регистрация...' : 'Зарегистрироваться'}
-        </button>
-      </form>
-      
-      <p>
-        Уже есть аккаунт? <a href="/login">Войти</a>
-      </p>
+        <div className="auth-footer">
+          <span className="auth-footer__text">Уже есть аккаунт?</span>
+          <Link to="/login" className="auth-footer__link">Войти</Link>
+        </div>
+      </div>
     </div>
   );
 }

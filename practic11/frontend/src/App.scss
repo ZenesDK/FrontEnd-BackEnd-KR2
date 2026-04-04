@@ -1,28 +1,30 @@
 // ==================== ПЕРЕМЕННЫЕ ====================
 
-// Цветовая схема
-$primary-color: #007bff;
-$primary-hover: #0056b3;
-$danger-color: #dc3545;
-$danger-hover: #b02a37;
-$warning-color: #ffc107;
-$warning-hover: #e0a800;
-$success-color: #28a745;
-$success-hover: #1e7e34;
-$secondary-color: #6c757d;
-$secondary-hover: #5a6268;
-$dark-color: #333;
-$light-color: #f5f5f5;
-$white: #ffffff;
-$gray: #666;
-$light-gray: #f0f0f0;
-$border-color: #e0e0e0;
+$bg: #1a2e1f;
+$panel: rgba(200, 230, 200, 0.05);
+$border: rgba(180, 210, 170, 0.2);
+$text: #e0f0e0;
+$text-secondary: rgba(255, 255, 255, 0.7);
 
-// Тени
-$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-$box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+$primary: rgba(120, 180, 120, 0.6);
+$primaryBg: rgba(100, 160, 100, 0.2);
+$primaryHover: rgba(120, 180, 120, 0.35);
 
-// Отступы
+$danger: rgba(200, 100, 100, 0.5);
+$dangerBg: rgba(239, 68, 68, 0.12);
+$dangerHover: rgba(239, 68, 68, 0.25);
+
+$success: rgba(100, 180, 100, 0.5);
+$successBg: rgba(34, 197, 94, 0.12);
+
+$warning: rgba(255, 200, 100, 0.4);
+$warningBg: rgba(245, 158, 11, 0.12);
+
+$secondary: rgba(150, 150, 170, 0.3);
+$secondaryBg: rgba(150, 150, 170, 0.1);
+
+$box-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.25);
+
 $spacing-xs: 0.25rem;
 $spacing-sm: 0.5rem;
 $spacing-md: 0.75rem;
@@ -30,19 +32,15 @@ $spacing-lg: 1rem;
 $spacing-xl: 1.5rem;
 $spacing-xxl: 2rem;
 
-// Брейкпоинты
 $breakpoint-mobile: 768px;
 $breakpoint-tablet: 1024px;
 
-// Радиусы
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-xl: 20px;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$border-radius-xl: 24px;
 
-// Шрифты
-$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 $font-size-xs: 0.75rem;
 $font-size-sm: 0.875rem;
 $font-size-base: 1rem;
@@ -53,74 +51,49 @@ $font-size-xxxl: 1.75rem;
 
 // ==================== МИКСИНЫ ====================
 
-// Миксин для флекс-контейнера
-@mixin flex($direction: row, $justify: flex-start, $align: stretch, $gap: 0) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $justify;
-  align-items: $align;
-  gap: $gap;
-}
-
-// Миксин для карточки
-@mixin card($padding: $spacing-lg, $radius: $border-radius-md) {
-  background: $white;
-  border: 1px solid $border-color;
+@mixin glass-card($radius: $border-radius-md) {
+  background: $panel;
+  backdrop-filter: blur(10px);
+  border: 1px solid $border;
   border-radius: $radius;
-  padding: $padding;
   transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: $box-shadow-hover;
-  }
 }
 
-// Миксин для кнопки
-@mixin button($bg: $primary-color, $hover-bg: $primary-hover, $color: $white) {
+@mixin container($max-width: 1200px) {
+  max-width: $max-width;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+@mixin button($bg: transparent, $hover-bg: rgba(255, 255, 255, 0.05), $color: $text) {
   background: $bg;
   color: $color;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
-  transition: background 0.2s;
-  width: auto;
+  transition: all 0.2s ease;
   padding: $spacing-sm $spacing-lg;
   border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: 500;
   
-  &:hover {
+  &:hover:not(:disabled) {
     background: $hover-bg;
+    transform: translateY(-1px);
   }
   
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
 
-// Миксин для контейнера
-@mixin container($max-width: 1200px) {
-  max-width: $max-width;
-  margin: $spacing-xxl auto;
-  padding: $spacing-xl;
-  background: $white;
-  border-radius: $border-radius-md;
-  box-shadow: $box-shadow;
-}
-
-// Миксин для медиа-запросов
 @mixin mobile {
   @media (max-width: $breakpoint-mobile) {
     @content;
   }
 }
 
-@mixin tablet {
-  @media (max-width: $breakpoint-tablet) {
-    @content;
-  }
-}
-
-// Миксин для обрезки текста
 @mixin text-ellipsis($lines: 2) {
   @if $lines == 1 {
     white-space: nowrap;
@@ -145,47 +118,31 @@ $font-size-xxxl: 1.75rem;
 
 body {
   font-family: $font-family-base;
-  background-color: $light-color;
+  background-color: $bg;
+  color: $text;
+  line-height: 1.5;
 }
 
 // ==================== КОНТЕЙНЕРЫ ====================
 
 .container {
   @include container();
+  padding: $spacing-xl $spacing-lg;
   
   @include mobile {
-    margin: $spacing-lg;
     padding: $spacing-lg;
   }
-}
-
-// ==================== ФОРМЫ ====================
-
-form {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-input, textarea, button {
-  display: block;
-  width: 100%;
-  margin: $spacing-md 0;
-  padding: $spacing-md;
-  font-size: $font-size-base;
-  border: 1px solid $border-color;
-  border-radius: $border-radius-sm;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
 }
 
 // ==================== ХЕДЕР ====================
 
 .header-with-logout {
-  @include flex(row, space-between, center, $spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
   margin-bottom: $spacing-xl;
+  flex-wrap: wrap;
   
   @include mobile {
     flex-direction: column;
@@ -195,61 +152,65 @@ textarea {
   h2 {
     margin: 0;
     font-size: $font-size-xxxl;
+    font-weight: 600;
+    background: linear-gradient(135deg, $text 0%, $primary 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   > div {
-    @include flex(row, center, center, $spacing-md);
-    
-    @include mobile {
-      width: 100%;
-      justify-content: space-between;
-    }
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
   }
 }
 
 .user-role-badge {
-  background: $secondary-color;
-  color: $white;
+  background: $panel;
   padding: $spacing-sm $spacing-lg;
   border-radius: $border-radius-xl;
   font-size: $font-size-sm;
+  border: 1px solid $border;
+  backdrop-filter: blur(10px);
 }
 
 .btn-logout {
-  @include button($danger-color, $danger-hover);
-}
-
-.btn-refresh {
-  @include button(#17a2b8, #138496);
+  @include button($dangerBg, $dangerHover);
+  border-color: $danger;
 }
 
 // ==================== ТУЛБАР ====================
 
 .toolbar {
-  @include flex(row, flex-start, center, $spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
   margin-bottom: $spacing-xl;
   flex-wrap: wrap;
+  
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .btn-primary {
-  @include button($primary-color, $primary-hover);
+  @include button($primaryBg, $primaryHover);
+  border-color: $primary;
   text-decoration: none;
-  display: inline-block;
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
 }
 
-.btn-admin {
-  @include button($secondary-color, $secondary-hover);
+.btn-admin, .btn-back {
+  @include button($secondaryBg, rgba(150, 150, 170, 0.2));
   text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.btn-back {
-  @include button($secondary-color, $secondary-hover);
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
 }
 
 // ==================== СЕТКА ТОВАРОВ ====================
@@ -258,7 +219,6 @@ textarea {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: $spacing-xl;
-  margin-top: $spacing-lg;
   
   @include mobile {
     grid-template-columns: 1fr;
@@ -267,16 +227,21 @@ textarea {
 }
 
 .product-card {
-  @include card($spacing-lg, $border-radius-lg);
+  @include glass-card($border-radius-lg);
+  padding: $spacing-xl;
+  transition: transform 0.2s ease, border-color 0.2s ease;
   
   &:hover {
     transform: translateY(-4px);
-    box-shadow: $box-shadow-hover;
+    border-color: rgba(120, 180, 120, 0.4);
   }
 }
 
 .product-card-header {
-  @include flex(row, space-between, center, $spacing-sm);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-md;
   margin-bottom: $spacing-md;
   flex-wrap: wrap;
 }
@@ -285,22 +250,21 @@ textarea {
   margin: 0;
   font-size: $font-size-xl;
   font-weight: 600;
-  color: $dark-color;
+  color: $text;
 }
 
 .product-category {
-  background: $light-gray;
-  color: $gray;
+  background: $panel;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius-xl;
   font-size: $font-size-xs;
-  font-weight: 500;
+  border: 1px solid $border;
 }
 
 .product-price {
   font-size: $font-size-xxl;
   font-weight: 700;
-  color: $primary-color;
+  color: lighten($primary, 20%);
   margin: $spacing-sm 0;
 }
 
@@ -309,7 +273,7 @@ textarea {
 .product-description {
   margin: $spacing-md 0;
   line-height: 1.5;
-  color: $gray;
+  color: $text-secondary;
   
   p {
     margin: 0;
@@ -328,27 +292,31 @@ textarea {
 .toggle-description {
   background: none;
   border: none;
-  color: $primary-color;
+  color: lighten($primary, 20%);
   cursor: pointer;
   font-size: $font-size-xs;
   padding: $spacing-xs 0;
   margin-top: $spacing-xs;
   width: auto;
-  text-decoration: underline;
   
   &:hover {
-    color: $primary-hover;
-    background: none;
+    color: lighten($primary, 30%);
+    text-decoration: underline;
   }
 }
 
-// ==================== КНОПКИ ДЕЙСТВИЙ НА КАРТОЧКЕ ====================
+// ==================== КНОПКИ ДЕЙСТВИЙ ====================
 
 .product-card-actions {
-  @include flex(row, stretch, center, $spacing-md);
+  display: flex;
+  gap: $spacing-md;
   margin-top: $spacing-lg;
   padding-top: $spacing-md;
-  border-top: 1px solid $border-color;
+  border-top: 1px solid $border;
+  
+  @include mobile {
+    flex-direction: column;
+  }
   
   .btn-edit, .btn-delete {
     flex: 1;
@@ -359,98 +327,210 @@ textarea {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
   }
   
   .btn-edit {
-    background: $warning-color;
-    color: $dark-color;
-    border: none;
+    background: $warningBg;
+    border: 1px solid $warning;
+    color: #fbbf24;
     
     &:hover {
-      background: $warning-hover;
+      background: rgba(245, 158, 11, 0.25);
     }
   }
   
   .btn-delete {
-    background: $danger-color;
-    color: $white;
-    border: none;
+    background: $dangerBg;
+    border: 1px solid $danger;
+    color: #f87171;
     
     &:hover {
-      background: $danger-hover;
+      background: $dangerHover;
     }
+  }
+}
+
+// ==================== ФОРМЫ ====================
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+input, textarea, select {
+  display: block;
+  width: 100%;
+  margin: $spacing-md 0;
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-base;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: $border-radius-md;
+  color: $text;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+select option {
+  background: $bg;
+}
+
+// ==================== КНОПКИ ФОРМЫ ====================
+
+.form-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.form-btn {
+  flex: 1;
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: 1.5;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: transparent;
+  color: $text;
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &--submit {
+    background: $primaryBg;
+    border-color: $primary;
+    
+    &:hover:not(:disabled) {
+      background: $primaryHover;
+    }
+  }
+  
+  &--cancel {
+    background: $secondaryBg;
+    border-color: $secondary;
+    color: $text-secondary;
+    
+    &:hover:not(:disabled) {
+      background: rgba(150, 150, 170, 0.2);
+    }
+  }
+}
+
+@include mobile {
+  .form-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .form-btn {
+    padding: 12px 16px;
   }
 }
 
 // ==================== ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ ====================
 
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: $border-radius-lg;
+  border: 1px solid $border;
+  background: $panel;
+  backdrop-filter: blur(10px);
+}
+
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: $spacing-lg;
-  overflow-x: auto;
-  display: block;
-  
-  thead, tbody, tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
+  font-size: $font-size-sm;
   
   th, td {
-    border: 1px solid $border-color;
-    padding: $spacing-md;
+    padding: $spacing-md $spacing-lg;
     text-align: left;
-    word-break: break-word;
+    border-bottom: 1px solid $border;
   }
   
   th {
-    background: $light-gray;
+    background: rgba(0, 0, 0, 0.2);
     font-weight: 600;
+    color: $text;
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
   }
   
   select {
-    padding: $spacing-xs;
-    border-radius: $border-radius-sm;
-    width: auto;
     margin: 0;
+    padding: $spacing-xs $spacing-md;
+    width: auto;
+    min-width: 130px;
   }
   
   button {
     width: auto;
     margin: 0;
     padding: $spacing-xs $spacing-md;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
   }
 }
 
 .current-user {
-  background-color: rgba($primary-color, 0.1);
+  background: rgba(120, 180, 120, 0.1);
 }
 
 .self-badge {
   font-size: $font-size-xs;
-  color: $primary-color;
+  color: lighten($primary, 20%);
   margin-left: $spacing-sm;
 }
 
 .btn-block {
-  @include button($danger-color, $danger-hover);
+  @include button($dangerBg, $dangerHover);
+  border-color: $danger;
 }
 
 .btn-unblock {
-  @include button($success-color, $success-hover);
+  @include button($successBg, rgba(34, 197, 94, 0.2));
+  border-color: $success;
 }
 
-// Статусы
 .blocked {
-  color: $danger-color;
+  color: #f87171;
   font-weight: 500;
 }
 
 .active {
-  color: $success-color;
+  color: #4ade80;
   font-weight: 500;
 }
 
@@ -459,11 +539,11 @@ textarea {
 .warning-note {
   margin-top: $spacing-xl;
   padding: $spacing-lg;
-  background: #fff3cd;
-  border: 1px solid #ffc107;
-  border-radius: $border-radius-sm;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: $border-radius-md;
   font-size: $font-size-sm;
-  color: #856404;
+  color: #fbbf24;
   
   ul {
     margin: $spacing-sm 0 0 $spacing-xl;
@@ -472,37 +552,135 @@ textarea {
   
   li {
     padding: $spacing-xs 0;
-    border: none;
-    display: list-item;
   }
 }
 
 // ==================== ОШИБКИ ====================
 
 .error {
-  background: #f8d7da;
-  color: #721c24;
-  padding: $spacing-md;
-  border-radius: $border-radius-sm;
+  background: $dangerBg;
+  border: 1px solid $danger;
+  color: #f87171;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius-md;
   margin-bottom: $spacing-lg;
-  border: 1px solid #f5c6cb;
 }
 
 // ==================== ЗАГРУЗКА ====================
 
-.loading {
+.loading, .loading-state {
   text-align: center;
   padding: $spacing-xxl;
-  color: $gray;
+  color: $text-secondary;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $border;
+  border-top-color: lighten($primary, 20%);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto $spacing-lg;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 // ==================== ССЫЛКИ ====================
 
 a {
   text-decoration: none;
-  color: $primary-color;
+  color: lighten($primary, 20%);
   
   &:hover {
     text-decoration: underline;
+  }
+}
+
+// ==================== СТРАНИЦЫ АВТОРИЗАЦИИ ====================
+
+.auth-card {
+  max-width: 450px;
+  margin: 0 auto;
+  background: $panel;
+  backdrop-filter: blur(10px);
+  border: 1px solid $border;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xxl $spacing-xl;
+  
+  @include mobile {
+    padding: $spacing-xl $spacing-lg;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+    font-size: $font-size-xxxl;
+    font-weight: 600;
+    background: linear-gradient(135deg, $text 0%, $primary 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  form {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: $font-size-base;
+  font-weight: 600;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid $primary;
+  border-radius: $border-radius-md;
+  background: $primaryBg;
+  color: $text;
+  transition: all 0.2s ease;
+  margin-top: $spacing-lg;
+  
+  &:hover:not(:disabled) {
+    background: $primaryHover;
+    transform: translateY(-2px);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.auth-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border;
+  
+  &__text {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+  
+  &__link {
+    color: lighten($primary, 20%);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: lighten($primary, 35%);
+      text-decoration: underline;
+    }
   }
 }

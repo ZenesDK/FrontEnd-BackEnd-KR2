@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api/auth';
 
 export default function Login() {
@@ -17,11 +17,9 @@ export default function Login() {
       const response = await login(form);
       const { accessToken, refreshToken } = response.data;
       
-      // Сохраняем токены
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       
-      // Декодируем роль из токена
       const decoded = JSON.parse(atob(accessToken.split('.')[1]));
       localStorage.setItem('userRole', decoded.role);
       
@@ -38,37 +36,40 @@ export default function Login() {
 
   return (
     <div className="container">
-      <h2>Вход</h2>
-      
-      {error && <div className="error">{error}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          required
-          disabled={loading}
-        />
+      <div className="auth-card">
+        <h2>Вход</h2>
         
-        <input
-          type="password"
-          placeholder="Пароль"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          required
-          disabled={loading}
-        />
+        {error && <div className="error">{error}</div>}
         
-        <button type="submit" disabled={loading}>
-          {loading ? 'Вход...' : 'Войти'}
-        </button>
-      </form>
-      
-      <p>
-        Нет аккаунта? <a href="/register">Зарегистрироваться</a>
-      </p>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <input
+            type="password"
+            placeholder="Пароль"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            required
+            disabled={loading}
+          />
+          
+          <button type="submit" className="auth-btn" disabled={loading}>
+            {loading ? 'Вход...' : 'Войти'}
+          </button>
+        </form>
+        
+        <div className="auth-footer">
+          <span className="auth-footer__text">Нет аккаунта?</span>
+          <Link to="/register" className="auth-footer__link">Зарегистрироваться</Link>
+        </div>
+      </div>
     </div>
   );
 }
