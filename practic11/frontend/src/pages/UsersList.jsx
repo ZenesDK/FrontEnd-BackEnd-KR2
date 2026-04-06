@@ -161,14 +161,6 @@ export default function UsersList() {
           </tbody>
         </table>
       </div>
-      
-      <div className="warning-note">
-        ⚠️ <strong>Внимание:</strong>
-        <ul>
-          <li>При изменении своей роли или блокировке самого себя сессия завершится</li>
-          <li>Разблокировка пользователя не требует перелогина</li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -1046,7 +1046,7 @@ app.put("/api/products/:id", authMiddleware, roleMiddleware(['seller', 'admin'])
  *       404:
  *         description: Товар не найден
  */
-app.delete("/api/products/:id", authMiddleware, roleMiddleware(['admin']), (req, res) => {
+app.delete("/api/products/:id", authMiddleware, roleMiddleware(['admin', 'seller']), (req, res) => {
   const id = req.params.id;
   const products = getProducts();
   const productIndex = products.findIndex(p => p.id === id);

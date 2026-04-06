@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "admin123",
+      "id": "IVe4p-",
       "email": "admin@example.com",
       "first_name": "Admin",
       "last_name": "User",
@@ -10,35 +10,27 @@
       "hashedPassword": "$2b$10$JimyATOMbdi7iTUqBdvPiuyWDIV1UnMz..u6JvG5sRhDaha85lc72"
     },
     {
-      "id": "lm0OYu",
+      "id": "rnJbpW",
       "email": "test@example.com",
-      "first_name": "Name_test",
-      "last_name": "LastName_test",
+      "first_name": "test",
+      "last_name": "test",
       "role": "seller",
       "isBlocked": false,
-      "hashedPassword": "$2b$10$bBhgZfhKNcO4WDdkG/ct4.HoV67nTNy2ftFFHpIG8eKHuv9TljQdG"
+      "hashedPassword": "$2b$10$qhRzs/D/GIevtESDewXyeubEGdChmSxG19.7/lghbdk8nNbpXlhpm"
     }
   ],
   "products": [
     {
-      "id": "A7iVTI",
-      "title": "Черный байховый",
+      "id": "0G5nhO",
+      "title": "Байховый",
       "category": "Черный",
-      "description": "Вкуснейший чай для вас",
-      "price": 599.9,
-      "imageUrl": "/uploads/1775331853041-935866736.webp"
+      "description": "Чай байховый черный",
+      "price": 399.99,
+      "imageUrl": "/uploads/1775458542473-977872940.webp"
     }
   ],
   "refreshTokens": [
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsbTBPWXUiLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1MTMwNjY3LCJleHAiOjE3NzU3MzU0Njd9.0Bing2LcpMwEQDOA8WHhqv_uPfmhq5_ypwrx4Mle5eE",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsbTBPWXUiLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1MTMwNzA0LCJleHAiOjE3NzU3MzU1MDR9.IVV1tLGvzeSEEXuX38aagugiZuSnEzPCsRkeE6I6pCk",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTEzMTUzNCwiZXhwIjoxNzc1NzM2MzM0fQ.8DE6WTxQXg9eBIX_WMdcxzwmgX15F0AXPu-gV3gIPKY",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTIwMjUwOCwiZXhwIjoxNzc1ODA3MzA4fQ.pxdXy80E7-4FZNl42NwFGgs4-amDzh823cnKsgjOdiU",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTIwMjUyMCwiZXhwIjoxNzc1ODA3MzIwfQ.xB40OpWQYiLymnStnurKDCVmOqDSrzLWeI9lrTkrJnE",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyODM0OCwiZXhwIjoxNzc1OTMzMTQ4fQ.o-x4a5YKvibJ2By38QrBpqFac864sr0FQTT2xlw6Qvc",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ4MiwiZXhwIjoxNzc1OTM0MjgyfQ.x7rcvwAgylgmz9HJXCgaGFeGC5icmfvZyE5QLFySE4Y",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMyOTQ5MiwiZXhwIjoxNzc1OTM0MjkyfQ.Zne0NjqeFOF6bNDPjAL1UNBNzOsk0DTads1BBFDKr_M",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMzMTczMiwiZXhwIjoxNzc1OTM2NTMyfQ.vSEKmzAeZJzu4-UZVdqlJuH7ii4qVD8iaoE_ThCRthM",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NTMzMTc0MiwiZXhwIjoxNzc1OTM2NTQyfQ.5cnVQcde4UnCZNVuge6tQfPIXlehlhRPTJmxPKR6G8Q"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJJVmU0cC0iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzU0NTg0MDksImV4cCI6MTc3NjA2MzIwOX0.EFynunjD_iUy3aATn4XWbUv9iMdEkVEBXLIjL7WyubI",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJybkpicFciLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1NDU4OTAwLCJleHAiOjE3NzYwNjM3MDB9.L4sFYsA4Ar006aGYXyiWMCDYWP89MdM9nswh726cLms"
   ]
 }

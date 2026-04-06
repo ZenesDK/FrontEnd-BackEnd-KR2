@@ -157,7 +157,7 @@ export default function ProductsList() {
                     Редактировать
                   </Link>
                 )}
-                {isAdmin && (
+                {isSeller && (
                   <button onClick={() => handleDelete(p.id)} className="btn-delete" title="Удалить">
                     Удалить
                   </button>
