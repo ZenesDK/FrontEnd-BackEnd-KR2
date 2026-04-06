@@ -1,57 +1,15 @@
 {
   "users": [
     {
-      "id": "IVe4p-",
+      "id": "93R7_r",
       "email": "admin@example.com",
       "first_name": "Admin",
       "last_name": "User",
       "role": "admin",
       "isBlocked": false,
       "hashedPassword": "$2b$10$JimyATOMbdi7iTUqBdvPiuyWDIV1UnMz..u6JvG5sRhDaha85lc72"
-    },
-    {
-      "id": "rnJbpW",
-      "email": "test@example.com",
-      "first_name": "test",
-      "last_name": "test",
-      "role": "seller",
-      "isBlocked": false,
-      "hashedPassword": "$2b$10$qhRzs/D/GIevtESDewXyeubEGdChmSxG19.7/lghbdk8nNbpXlhpm"
-    },
-    {
-      "id": "L9GyiO",
-      "email": "daniil@example.com",
-      "first_name": "daniil",
-      "last_name": "kaizer",
-      "role": "user",
-      "isBlocked": false,
-      "hashedPassword": "$2b$10$niw2C9hs2ev.fHxo8a7ypeldG9Lf2IUSw2mYw3RNEop72FUtRlHsC"
     }
   ],
-  "products": [
-    {
-      "id": "0G5nhO",
-      "title": "Байховый",
-      "category": "Черный",
-      "description": "Чай байховый черный",
-      "price": 399.99,
-      "imageUrl": "/uploads/1775458542473-977872940.webp"
-    },
-    {
-      "id": "v2bEjD",
-      "title": "Чай зелёный",
-      "category": "Зелёный",
-      "description": "Чай",
-      "price": 123,
-      "imageUrl": "/uploads/1775462443652-766682309.jpg"
-    }
-  ],
-  "refreshTokens": [
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJybkpicFciLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1NDU4OTAwLCJleHAiOjE3NzYwNjM3MDB9.L4sFYsA4Ar006aGYXyiWMCDYWP89MdM9nswh726cLms",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJJVmU0cC0iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzU0NjA1OTQsImV4cCI6MTc3NjA2NTM5NH0.GMP4DFnT7B77RszujdQ7T9l1V9jrG3zLcvfEhvqDX4s",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJMOUd5aU8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NTQ2MjE0MywiZXhwIjoxNzc2MDY2OTQzfQ.OaY_x5NWSqXHY_B2GOp7QZ4uBn_xcLCPUZsCYufpOiw",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJJVmU0cC0iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzU0NjIzOTMsImV4cCI6MTc3NjA2NzE5M30.yTc57_TGhMpLoe8Crp37uTvYGranEHU6Dvdx-nVu5Xw",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJybkpicFciLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNzc1NDYyNDcyLCJleHAiOjE3NzYwNjcyNzJ9.N7PpDe-_bHsVNSMO2gy8_MkwYlKEKqsaxUX5HMl-OJc",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJMOUd5aU8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NTQ2MjQ5OCwiZXhwIjoxNzc2MDY3Mjk4fQ._N8IUv5XH1rJZhFFdChR60NGvtvLmL7nLc3e7qRr5lY"
-  ]
+  "products": [],
+  "refreshTokens": []
 }
