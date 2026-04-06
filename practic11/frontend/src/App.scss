@@ -603,7 +603,8 @@ a {
 
 .auth-card {
   max-width: 450px;
-  margin: 0 auto;
+  margin-left: 0;
+  margin-right: auto;
   background: $panel;
   backdrop-filter: blur(10px);
   border: 1px solid $border;
@@ -615,11 +616,11 @@ a {
   }
   
   h2 {
-    text-align: center;
+    text-align: left;
     margin-bottom: $spacing-xl;
     font-size: $font-size-xxxl;
     font-weight: 600;
-    background: linear-gradient(135deg, $text 0%, $primary 100%);
+    background: rgba(255,255,255,1);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
